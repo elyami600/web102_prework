@@ -7,8 +7,10 @@
 // import the JSON data about the crowd funded games from the games.js file
 import GAMES_DATA from './games.js';
 
+
 // create a list of objects to store the data about the games using JSON.parse
 const GAMES_JSON = JSON.parse(GAMES_DATA)
+
 
 // remove all child elements from a parent element in the DOM
 function deleteChildElements(parent) {
@@ -29,8 +31,20 @@ const gamesContainer = document.getElementById("games-container");
 function addGamesToPage(games) {
 
     // loop over each item in the data
-
-
+    games.forEach(game => {
+        var div = document.createElement("div");
+        div.classList.add("game-card");
+        const display =`<div>
+            <img class="game-img" src="${game.img} "alt="${game.description}">
+            <h3>${game.name}</h3>
+            <p>${game.description}</p>
+            <p>Backers: ${game.backers}</p>
+        </div>`;
+        div.innerHTML = display
+        document.getElementById("games-container").appendChild(div);
+     
+    });
+   
         // create a new div element, which will become the game card
 
 
@@ -46,6 +60,7 @@ function addGamesToPage(games) {
         // append the game to the games-container
 
 }
+addGamesToPage(GAMES_JSON)
 
 // call the function we just defined using the correct variable
 // later, we'll call this function using a different list of games
