@@ -32,6 +32,7 @@ function addGamesToPage(games) {
 
     // loop over each item in the data
     games.forEach(game => {
+        console.log(game)
         var div = document.createElement("div");
         div.classList.add("game-card");
         const display =`<div>
@@ -70,25 +71,37 @@ addGamesToPage(GAMES_JSON)
  * Challenge 4: Create the summary statistics at the top of the page displaying the
  * total number of contributions, amount donated, and number of games on the site.
  * Skills used: arrow functions, reduce, template literals
+ *   
+ * backers holds a number referring to the number of unique people who have donated to fund a game
+pledged holds a dollar amount referring to the amount of money backers have donated to the game
 */
 
-// grab the contributions card element
-const contributionsCard = document.getElementById("num-contributions");
+const summaryStatistics = (game) => {
+    // grab the contributions card element
+    const contributionsCard = document.getElementById("num-contributions");
 
-// use reduce() to count the number of total contributions by summing the backers
-
-
-// set the inner HTML using a template literal and toLocaleString to get a number with commas
-
-
-// grab the amount raised card, then use reduce() to find the total amount raised
-const raisedCard = document.getElementById("total-raised");
-
-// set inner HTML using template literal
+    // use reduce() to count the number of total contributions by summing the backers 
+    const totalContributions = game.reduce(function (acc, obj) { return acc + obj.backers; }, 0);
+   
+    // set the inner HTML using a template literal and toLocaleString to get a number with commas
+    contributionsCard.innerHTML = totalContributions.toLocaleString('en-US')
 
 
-// grab number of games card and set its inner HTML
-const gamesCard = document.getElementById("num-games");
+    // grab the amount raised card, then use reduce() to find the total amount raised
+    const raisedCard = document.getElementById("total-raised");
+    const totalPledged = game.reduce(function (acc, obj) { return acc + obj.pledged; }, 0);
+
+    // set inner HTML using template literal
+    raisedCard.innerHTML = totalPledged.toLocaleString('en-US')
+    
+
+    // grab number of games card and set its inner HTML
+    const gamesCard = document.getElementById("num-games");
+    const numberGameCard = game.length; 
+    gamesCard.innerHTML = numberGameCard.toLocaleString('en-US')
+
+}
+summaryStatistics(GAMES_JSON)
 
 
 /*************************************************************************************
