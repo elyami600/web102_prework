@@ -73,3 +73,11 @@ button {
     margin: 1%;
     border-radius: 7px;
 }
+
+.stats-container .stats-card:hover {
+    display:flex;
+    align-items: flex-start;
+    cursor: pointer;
+    box-shadow: 0 0 30px lightblue;
+
+}
