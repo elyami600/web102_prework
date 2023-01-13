@@ -203,10 +203,20 @@ const sortedGames =  GAMES_JSON.sort( (item1, item2) => {
 });
 
 // use destructuring and the spread operator to grab the first and second games
+const [firstName, secondName, ...rest] = sortedGames;
+console.log(firstName.name)
+console.log(secondName.name)
 
 // create a new element to hold the name of the top pledge game, then append it to the correct element
+var newEle = document.createElement('div'); 
+newEle.innerHTML = firstName.name
+firstGameContainer .appendChild(newEle);
+
 
 // do the same for the runner up item
+var newsecond = document.createElement('div'); 
+newsecond.innerHTML = secondName.name
+secondGameContainer.appendChild(newsecond)
 
 const displayStr =
 `A total of $100,000 has been raised for 4 games. Currently, 2 games remain unfunded. We need your help to fund these amazing games!` 
