@@ -32,9 +32,15 @@ function addGamesToPage(games) {
 
     // loop over each item in the data
     games.forEach(game => {
-        //console.log(game)
-        var div = document.createElement("div");
+       // create a new div element, which will become the game card
+        var div = document.createElement("div"); 
+         // add the class game-card to the list
         div.classList.add("game-card");
+
+        // set the inner HTML using a template literal to display some info 
+        // about each game
+        // TIP: if your images are not displaying, make sure there is space
+        // between the end of the src attribute and the end of the tag ("/>")
         const display =`<div>
             <img class="game-img" src="${game.img} "alt="${game.description}">
             <h3>${game.name}</h3>
@@ -42,24 +48,10 @@ function addGamesToPage(games) {
             <p>Backers: ${game.backers}</p>
         </div>`;
         div.innerHTML = display
+        // append the game to the games-container
         document.getElementById("games-container").appendChild(div);
      
     });
-   
-        // create a new div element, which will become the game card
-
-
-        // add the class game-card to the list
-
-
-        // set the inner HTML using a template literal to display some info 
-        // about each game
-        // TIP: if your images are not displaying, make sure there is space
-        // between the end of the src attribute and the end of the tag ("/>")
-
-
-        // append the game to the games-container
-
 }
 addGamesToPage(GAMES_JSON)
 
@@ -81,7 +73,7 @@ const summaryStatistics = (game) => {
     const contributionsCard = document.getElementById("num-contributions");
 
     // use reduce() to count the number of total contributions by summing the backers 
-    const totalContributions = game.reduce(function (acc, obj) { return acc + obj.backers; }, 0);
+    const totalContributions = game.reduce((sum, obj) => { return sum + obj.backers; }, 0);
    
     // set the inner HTML using a template literal and toLocaleString to get a number with commas
     contributionsCard.innerHTML = totalContributions.toLocaleString('en-US')
@@ -89,7 +81,7 @@ const summaryStatistics = (game) => {
 
     // grab the amount raised card, then use reduce() to find the total amount raised
     const raisedCard = document.getElementById("total-raised");
-    const totalPledged = game.reduce(function (acc, obj) { return acc + obj.pledged; }, 0);
+    const totalPledged = game.reduce((acc, obj) => { return acc + obj.pledged; }, 0);
     
 
     // set inner HTML using template literal
@@ -165,23 +157,19 @@ allBtn.addEventListener("click", showAllGames);
 const descriptionContainer = document.getElementById("description-container");
 
 // use filter or reduce to count the number of unfunded games
-//const result = GAMES_JSON.filter(game => game.pledged < game.goal );
-// const count = GAMES_JSON.filter(game => game.pledged < game.goal).length;
-// console.log(count)
-let games =0
-const totalPledged = GAMES_JSON.reduce(function (acc, obj) { return acc + obj.pledged; }, 0);
-const count = GAMES_JSON.filter((game) => {
+let games = 0
+const totalPledged = GAMES_JSON.reduce( (sum, game) => { 
     if (game.pledged < game.goal) {
-        games++
-    }
-  
-  }, 0);
+        games++;
+    }  
+    return sum + game.pledged; 
+}, 0);
 
 // create a string that explains the number of unfunded games using the ternary operator
 
 const displayOne   = `A total of $${totalPledged .toLocaleString("en-US")} has been raised for ${GAMES_JSON.length} games. Currently, ${games} game remains unfunded. We need your help to fund these amazing games!` 
 const displaySMore = `A total of $${totalPledged .toLocaleString("en-US")} has been raised for ${GAMES_JSON.length} games. Currently, ${games} games remain unfunded. We need your help to fund these amazing games!` 
-let isLoggedIn = count === 1 ? displayOne : displaySMore; 
+let isLoggedIn = games <= 1 ? displayOne : displaySMore; 
 
 
 // create a new DOM element containing the template string and append it to the description container
@@ -204,8 +192,6 @@ const sortedGames =  GAMES_JSON.sort( (item1, item2) => {
 
 // use destructuring and the spread operator to grab the first and second games
 const [firstName, secondName, ...rest] = sortedGames;
-console.log(firstName.name)
-console.log(secondName.name)
 
 // create a new element to hold the name of the top pledge game, then append it to the correct element
 var newEle = document.createElement('div'); 
